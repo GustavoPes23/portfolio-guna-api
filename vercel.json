@@ -1,6 +1,5 @@
 {
-    "version": 2,
-    "rewrites": [
-        { "source": "/(.*)", "destination": "/" }
-    ]
-}
+    "scripts": {
+      "vercel-build": "node ./build.js"
+    }
+  }

@@ -8,8 +8,7 @@
   },
   "scripts": {
     "dev": "nodemon server.js",
-    "start": "node server.js",
-    "vercel-build": "npm install && npm run start"
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
