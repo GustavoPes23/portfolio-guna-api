@@ -7,8 +7,9 @@
     "node": "18.x"
   },
   "scripts": {
-    "dev": "nodemon /api/index.js",
-    "start": "node /api/index.js"
+    "dev": "nodemon server.js",
+    "start": "node server.js",
+    "vercel-build": "npm install && npm run start"
   },
   "keywords": [],
   "author": "",
