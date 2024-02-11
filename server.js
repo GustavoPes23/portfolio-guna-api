@@ -10,6 +10,6 @@ mongoose.connect(process.env.MONGO_URL);
 
 app.use(cors());
 
-app.use('/api', routes);
+app.use('/', routes);
 
 app.listen(process.env.PORT);
