@@ -12,8 +12,4 @@ app.use(cors());
 
 app.use('/api', routes);
 
-app.get('/', (req, res) => {
-    res.status(200).json('Welcome, your app is working well');
-})
-
 app.listen(process.env.PORT);
