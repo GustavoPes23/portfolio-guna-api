@@ -1,4 +1,4 @@
-// require('dotenv').config({ path: './.env' });
+require('dotenv').config({ path: './.env' });
 
 const express = require('express');
 const cors = require('cors');
@@ -11,9 +11,7 @@ app.get("/", (req, res) => {
   res.send("Express on Vercel");
 });
 
-
 app.use('/api', routes);
-
 
 app.listen(process.env.PORT);
 
