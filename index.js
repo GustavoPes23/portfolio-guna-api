@@ -7,9 +7,11 @@ const routes = require('./src/routes');
 const app = express();
 app.use(cors());
 
-app.get("/", (req, res) => {
-  res.send("Express on Vercel");
-});
+// app.get("/", (req, res) => {
+//   res.send("Express on Vercel");
+// });
+
+app.use(express.json({ extended: false }))
 
 app.use('/api', routes);
 
