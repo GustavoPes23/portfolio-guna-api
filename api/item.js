@@ -7,6 +7,6 @@ const ItemService = require('../src/services/item');
 
 routes.post('/', multer(itemMulterConfig).single("file"), ItemService.doPost)
     .get('/:id', ItemService.doGetById)
-    .get('/all', ItemService.doGetAll);
+    .get('/', ItemService.doGetAll);
 
 module.exports = routes;
