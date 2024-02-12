@@ -7,7 +7,7 @@
     "node": "18.x"
   },
   "scripts": {
-    "dev": "nodemon appDev.js"
+    "dev": "nodemon index.js"
   },
   "keywords": [],
   "author": "",
