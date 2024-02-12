@@ -7,7 +7,7 @@ const routes = require('./src/routes');
 const app = express();
 app.use(cors());
 
-app.use('/api', routes);
+// app.use('/api', routes);
 
 app.get("/", (req, res) => {
   res.send("Express on Vercel");
