@@ -1,18 +1,15 @@
-require('dotenv').config({ path: './.env' });
-
-const express = require('express');
-const cors = require('cors');
-const routes = require('./src/routes');
-
+const express = require("express");
 const app = express();
-app.use(cors());
 
-// app.use('/api', routes);
-
+// Create GET request
 app.get("/", (req, res) => {
-  res.send("Express on Vercel");
+    res.send("Express on Vercel");
 });
 
-app.listen(process.env.PORT);
+// Initialize server
+app.listen(5000, () => {
+    console.log("Running on port 5000.");
+});
 
+// Export the Express API
 module.exports = app;
