@@ -2,6 +2,7 @@ const Item = require('../models/Item');
 const PaginatedResults = require('../component/paginatedResults');
 const { findById, findAll, insert, update } = require("../config/db");
 const fs = require("fs");
+const { v4: uuidv4 } = require('uuid');
 
 async function doGetById(req, res) {
     const itemId = req.params.id;
@@ -31,14 +32,19 @@ async function doGetById(req, res) {
 
 async function doPost(req, res) {
     const file = req.file;
+    console.log(req.body, 1)
     const { name, href, tag } = JSON.parse(req.body.formData);
 
     try {
+
+        const fileName = uuidv4() + '_' + uploadedFile.originalname;
+        await saveFile(uploadedFile.buffer, fileName);
+
         const item = {
             name,
             href,
             image: {
-                imageSrc: fs.readFileSync(file.path),
+                imageSrc: fileName,
                 imageAlt: file.originalname,
             },
             tag
@@ -58,6 +64,19 @@ async function doPost(req, res) {
             message: err.message
         });
     }
+}
+
+// Função para salvar o arquivo no servidor
+async function saveFile(fileBuffer, fileName) {
+    return new Promise((resolve, reject) => {
+        fs.writeFile(`uploads/${fileName}`, fileBuffer, (err) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve();
+            }
+        });
+    });
 }
 
 async function doGetAll(_, res) {
@@ -87,8 +106,8 @@ async function doUpdate(req, res) {
         href && (item.href = href);
         tag && (item.tag = tag);
 
-        const result = await db.update(id, item);
-        
+        const result = await update(id, item);
+
         return res.status(200).json({
             success: true,
             result
