@@ -19,7 +19,13 @@ function generateToken({ user, pass }) {
 }
 
 function verifyToken(req, res, next) {
-    const token = req.headers['authorization'].split(" ")[1];
+    const auth = req.headers['authorization'].split(" ");
+
+    if (!auth) {
+        return res.status(403).json({ message: 'Token não fornecido.' });
+    }
+
+    const token = auth[1] || auth[0];
 
     if (!token) {
         return res.status(403).json({ message: 'Token não fornecido.' });
