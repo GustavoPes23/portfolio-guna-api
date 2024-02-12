@@ -1,13 +1,13 @@
 const Item = require('../models/Item');
 const PaginatedResults = require('../component/paginatedResults');
-const { findAll, insert } = require("../config/db");
+const { findById, findAll, insert } = require("../config/db");
 const fs = require("fs");
 
 async function doGetById(req, res) {
     const itemId = req.params.id;
 
     try {
-        const item = await Item.findById(itemId);
+        const item = await findById(itemId);
 
         if (item) {
             return res.status(200).json({
@@ -15,11 +15,11 @@ async function doGetById(req, res) {
                 result: item
             });
         }
-        else
-            return res.status(400).json({
-                success: false,
-                message: 'Not found.'
-            });
+        
+        return res.status(400).json({
+            success: false,
+            message: 'Not found.'
+        });            
     }
     catch (err) {
         return res.status(400).json({
