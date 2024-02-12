@@ -12,13 +12,7 @@ app.use(cors());
 
 app.use('/', routes);
 
-const BuiltTime = require('./built-time');
-module.exports = (request, response) => {
-  response.setHeader('content-type', 'text/plain');
-  response.send(`
-    This Serverless Function was built at ${new Date(BuiltTime)}.
-    The current time is ${new Date()}
-  `);
-};
-
 app.listen(process.env.PORT);
+
+// Export the Express API
+module.exports = app;
