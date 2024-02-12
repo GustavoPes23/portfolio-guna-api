@@ -1,6 +1,6 @@
 require('dotenv').config({ path: '../../.env' });
 
-const { MongoClient } = require("mongodb");
+const { MongoClient, ObjectId } = require("mongodb");
 const COLLECTION = "items";
 
 async function connect() {
