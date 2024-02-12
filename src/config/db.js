@@ -1,7 +1,6 @@
 require('dotenv').config({ path: '../../.env' });
 
 const { MongoClient, ObjectId } = require("mongodb");
-const COLLECTION = "items";
 
 async function connect() {
     const client = new MongoClient(process.env.MONGO_URI);
@@ -11,24 +10,33 @@ async function connect() {
     return connection;
 }
 
-async function findById(id) {
+async function findById(id, collection) {
     const db = await connect();
-    return db.collection(COLLECTION).findOne({_id: new ObjectId(id)});
+    return db.collection(collection).findOne({_id: new ObjectId(id)});
 }
 
-async function findAll() {
+async function findUser(data, collection) {
     const db = await connect();
-    return db.collection(COLLECTION).find().toArray();
+
+    // const query = { title: "The Room" };
+
+    return db.collection(collection).findOne(data);
 }
 
-async function insert(data) {
+
+async function findAll(collection) {
     const db = await connect();
-    return db.collection(COLLECTION).insertOne(data);
+    return db.collection(collection).find().toArray();
 }
 
-async function update(id, item) {
+async function insert(data, collection) {
     const db = await connect();
-    return db.collection(COLLECTION).updateOne({ _id: new ObjectId(id) }, { $set: item });
+    return db.collection(collection).insertOne(data);
+}
+
+async function update(id, item, collection) {
+    const db = await connect();
+    return db.collection(collection).updateOne({ _id: new ObjectId(id) }, { $set: item });
 }
  
-module.exports = { findById, findAll, insert, update }
+module.exports = { findById, findUser, findAll, insert, update }

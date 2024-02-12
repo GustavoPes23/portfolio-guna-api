@@ -2,11 +2,13 @@ const Item = require('../models/Item');
 const PaginatedResults = require('../component/paginatedResults');
 const { findById, findAll, insert, update } = require("../config/db");
 
+const COLLECTION = "items";
+
 async function doGetById(req, res) {
     const itemId = req.params.id;
 
     try {
-        const item = await findById(itemId);
+        const item = await findById(itemId, COLLECTION);
 
         if (item) {
             return res.status(200).json({
@@ -43,7 +45,7 @@ async function doPost(req, res) {
             tag
         };
 
-        await insert(item);
+        await insert(item, COLLECTION);
 
         return res.status(200).json({
             success: true,
@@ -60,7 +62,7 @@ async function doPost(req, res) {
 
 async function doGetAll(_, res) {
     try {
-        const result = await findAll();
+        const result = await findAll(COLLECTION);
 
         return res.status(200).json({
             success: true,
@@ -85,7 +87,7 @@ async function doUpdate(req, res) {
         href && (item.href = href);
         tag && (item.tag = tag);
 
-        const result = await update(id, item);
+        const result = await update(id, item, COLLECTION);
 
         return res.status(200).json({
             success: true,
