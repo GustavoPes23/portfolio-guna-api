@@ -25,5 +25,10 @@ async function insert(data) {
     const db = await connect();
     return db.collection(COLLECTION).insertOne(data);
 }
+
+async function update(id, item) {
+    const db = await connect();
+    return db.collection(COLLECTION).updateOne({ _id: new ObjectId(id) }, { $set: item });
+}
  
-module.exports = { findById, findAll, insert }
+module.exports = { findById, findAll, insert, update }

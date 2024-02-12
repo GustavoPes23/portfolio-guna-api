@@ -1,6 +1,6 @@
 const Item = require('../models/Item');
 const PaginatedResults = require('../component/paginatedResults');
-const { findById, findAll, insert } = require("../config/db");
+const { findById, findAll, insert, update } = require("../config/db");
 const fs = require("fs");
 
 async function doGetById(req, res) {
@@ -15,11 +15,11 @@ async function doGetById(req, res) {
                 result: item
             });
         }
-        
+
         return res.status(400).json({
             success: false,
             message: 'Not found.'
-        });            
+        });
     }
     catch (err) {
         return res.status(400).json({
@@ -76,4 +76,29 @@ async function doGetAll(_, res) {
     }
 }
 
-module.exports = { doGetById , doPost, doGetAll };
+async function doUpdate(req, res) {
+    const id = req.params.id;
+    const { name, href, tag } = req.body;
+
+    try {
+        const item = {};
+
+        name && (item.name = name);
+        href && (item.href = href);
+        tag && (item.tag = tag);
+
+        const result = await db.update(id, item);
+        
+        return res.status(200).json({
+            success: true,
+            result
+        });
+    } catch (err) {
+        return res.status(400).json({
+            success: false,
+            message: err.message
+        });
+    }
+}
+
+module.exports = { doGetById, doPost, doGetAll, doUpdate };

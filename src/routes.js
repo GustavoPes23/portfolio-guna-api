@@ -11,6 +11,7 @@ const ItemService = require('./services/item');
 
 routes.post('/item', ItemService.doPost)
     .get('/item/:id', ItemService.doGetById)
-    .get('/item', ItemService.doGetAll);
+    .get('/item', ItemService.doGetAll)
+    .put('/item/:id', ItemService.doUpdate);
 
 module.exports = routes;
