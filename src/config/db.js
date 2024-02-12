@@ -13,7 +13,6 @@ async function connect() {
 
 async function findAll() {
     const db = await connect();
-    console.log(db.collection(COLLECTION).find())
     return db.collection(COLLECTION).find().toArray();
 }
 
