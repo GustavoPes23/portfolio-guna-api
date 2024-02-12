@@ -5,7 +5,11 @@ const routes = express.Router();
 
 const ItemService = require('./services/item');
 
-routes.post('/item', multer(itemMulterConfig).single("file"), ItemService.doPost)
+// routes.post('/item', multer(itemMulterConfig).single("file"), ItemService.doPost)
+//     .get('/item/:id', ItemService.doGetById)
+//     .get('/item', ItemService.doGetAll);
+
+routes
     .get('/item/:id', ItemService.doGetById)
     .get('/item', ItemService.doGetAll);
 
