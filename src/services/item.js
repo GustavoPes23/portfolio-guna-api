@@ -1,6 +1,7 @@
 const Item = require('../models/Item');
 const PaginatedResults = require('../component/paginatedResults');
 const { findAll, insert } = require("../config/db");
+const fs = require("fs")
 
 module.exports = {
 
@@ -39,7 +40,7 @@ module.exports = {
                 name,
                 href,
                 image: {
-                    imageSrc: file.location,
+                    imageSrc: fs.readFileSync(file.path),
                     imageAlt: file.originalname,
                 },
                 tag

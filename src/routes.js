@@ -9,7 +9,7 @@ const ItemService = require('./services/item');
 //     .get('/item/:id', ItemService.doGetById)
 //     .get('/item', ItemService.doGetAll);
 
-routes
+routes.post('/item', ItemService.doPost)
     .get('/item/:id', ItemService.doGetById)
     .get('/item', ItemService.doGetAll);
 
