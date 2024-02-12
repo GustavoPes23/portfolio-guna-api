@@ -11,6 +11,11 @@ async function connect() {
     return connection;
 }
 
+async function findById(id) {
+    const db = await connect();
+    return db.collection(COLLECTION).findOne({_id: new ObjectId(id)});
+}
+
 async function findAll() {
     const db = await connect();
     return db.collection(COLLECTION).find().toArray();
@@ -21,4 +26,4 @@ async function insert(data) {
     return db.collection(COLLECTION).insertOne(data);
 }
  
-module.exports = { connect, findAll, insert }
+module.exports = { findById, findAll, insert }
