@@ -15,7 +15,9 @@ function generateToken({ user, pass }) {
         expiresIn: '24h'
     };
 
-    return jwt.sign(payload, secret, options);
+    const token = jwt.sign(payload, secret, options);
+
+    return res.status(201).json({ success: true,  token: token });
 }
 
 function verifyToken(req, res, next) {
