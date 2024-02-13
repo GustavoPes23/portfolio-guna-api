@@ -41,11 +41,10 @@ async function doPostAuth(req, res) {
 
         if (User) {
             const token = generateToken({ user, pass }, res);
-            User.token = token;
 
             return res.status(200).json({
                 success: true,
-                result: User
+                token
             });
         }
 
