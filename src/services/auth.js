@@ -1,5 +1,5 @@
 const { insert, findUser } = require("../config/db");
-const { verifyToken, generateToken } = require("../config/auth");
+const { generateToken } = require("../config/auth");
 
 const COLLECTION = "users"
 
@@ -40,6 +40,9 @@ async function doPostAuth(req, res) {
         const User = await findUser({ user, pass }, COLLECTION);
 
         if (User) {
+            const token = generateToken({ user, pass }, res);
+            User.token = token;
+
             return res.status(200).json({
                 success: true,
                 result: User
