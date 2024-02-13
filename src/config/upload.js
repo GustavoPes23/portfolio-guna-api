@@ -34,8 +34,10 @@ async function handler(req, res, next) {
             folder: "demo",
         },
         (error, result) => {
-            if (error) return console.error(error);
-            // res.status(200).json(result);
+            if (error) {
+                return console.error(error);
+            }
+            
             req.uploadedFile = result;
             next();
         }

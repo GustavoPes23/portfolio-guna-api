@@ -17,12 +17,8 @@ async function findById(id, collection) {
 
 async function findUser(data, collection) {
     const db = await connect();
-
-    // const query = { title: "The Room" };
-
     return db.collection(collection).findOne(data);
 }
-
 
 async function findAll(collection) {
     const db = await connect();

@@ -1,5 +1,3 @@
-const Item = require('../models/Item');
-const PaginatedResults = require('../component/paginatedResults');
 const { findById, findAll, insert, update } = require("../config/db");
 
 const COLLECTION = "items";
