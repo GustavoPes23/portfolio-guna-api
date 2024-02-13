@@ -11,9 +11,7 @@ routes.post('/item', verifyToken, uploadMiddleware, ItemService.doPost)
     .get('/item', verifyToken, ItemService.doGetAll)
     .put('/item/:id',verifyToken, ItemService.doUpdate);
 
-// routes.post('/user', AuthService.doPost)
-//     .post('/user/auth', AuthService.doPostAuth);
-
-routes.post('/user/auth', AuthService.doPostAuth);
+routes.post('/user', AuthService.doPost)
+    .post('/user/auth', AuthService.doPostAuth);
 
 module.exports = routes;
