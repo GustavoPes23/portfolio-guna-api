@@ -2,7 +2,7 @@ require('dotenv').config({ path: '../../.env' });
 
 const jwt = require('jsonwebtoken');
 
-function generateToken({ user, pass }) {
+function generateToken({ user, pass }, res) {
     const payload = {
         role: "admin",
         user,

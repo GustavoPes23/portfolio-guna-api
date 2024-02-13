@@ -6,7 +6,7 @@ const COLLECTION = "users"
 async function doPost(req, res) {
     const { user, pass } = req.body;
 
-    const token = generateToken({ user, pass });
+    const token = generateToken({ user, pass }, res);
 
     try {
         const User = {
