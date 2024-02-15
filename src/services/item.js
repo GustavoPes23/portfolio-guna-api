@@ -1,12 +1,12 @@
-const { findById, findAll, insert, update } = require("../config/db");
+const { findById, findAll, insert, update, findByCode } = require("../config/db");
 
-const COLLECTION = "items";
+const { COLLECTION_ITEMS, COLLECTION_TAG } = require("../config/collections");
 
 async function doGetById(req, res) {
     const itemId = req.params.id;
 
     try {
-        const item = await findById(itemId, COLLECTION);
+        const item = await findById(itemId, COLLECTION_ITEMS);
 
         if (item) {
             return res.status(200).json({
@@ -29,21 +29,26 @@ async function doGetById(req, res) {
 }
 
 async function doPost(req, res) {
-    const { name, href, tag } = JSON.parse(req.body.formData);
-    const { uploadedFile, file } = req;
-
     try {
+        const { name, code_tag } = JSON.parse(req.body.formData);
+        const { uploadedFile, file } = req;
+
+        const tag = await findByCode(code_tag, COLLECTION_TAG);
+
+        if (!tag) {
+            throw new Error("Tag not found");
+        }
+
         const item = {
             name,
-            href,
             image: {
-                imageSrc: uploadedFile.secure_url,
-                imageAlt: file.originalname,
+                src: uploadedFile.secure_url,
+                alt: file.originalname,
             },
             tag
         };
 
-        await insert(item, COLLECTION);
+        await insert(item, COLLECTION_ITEMS);
 
         return res.status(200).json({
             success: true,
@@ -60,7 +65,7 @@ async function doPost(req, res) {
 
 async function doGetAll(_, res) {
     try {
-        const result = await findAll(COLLECTION);
+        const result = await findAll(COLLECTION_ITEMS);
 
         return res.status(200).json({
             success: true,
@@ -85,7 +90,7 @@ async function doUpdate(req, res) {
         href && (item.href = href);
         tag && (item.tag = tag);
 
-        const result = await update(id, item, COLLECTION);
+        const result = await update(id, item, COLLECTION_ITEMS);
 
         return res.status(200).json({
             success: true,

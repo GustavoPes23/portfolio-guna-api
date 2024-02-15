@@ -1,7 +1,7 @@
 const { insert, findUser } = require("../config/db");
 const { generateToken } = require("../config/auth");
 
-const COLLECTION = "users"
+const { COLLECTION_USERS } = require("../config/collections");
 
 async function doPost(req, res) {
     const { user, pass } = req.body;
@@ -15,7 +15,7 @@ async function doPost(req, res) {
             token
         };
 
-        await insert(User, COLLECTION);
+        await insert(User, COLLECTION_USERS);
 
         return res.status(201).json({
             success: true
@@ -37,7 +37,7 @@ async function doPostAuth(req, res) {
             throw new Error("Missing data.");
         }
 
-        const User = await findUser({ user, pass }, COLLECTION);
+        const User = await findUser({ user, pass }, COLLECTION_USERS);
 
         if (User) {
             const token = generateToken({ user, pass }, res);

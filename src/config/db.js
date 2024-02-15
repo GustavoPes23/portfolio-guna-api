@@ -15,6 +15,12 @@ async function findById(id, collection) {
     return db.collection(collection).findOne({_id: new ObjectId(id)});
 }
 
+
+async function findByCode(code, collection) {
+    const db = await connect();
+    return db.collection(collection).findOne({ code });
+}
+
 async function findUser(data, collection) {
     const db = await connect();
     return db.collection(collection).findOne(data);
@@ -35,4 +41,4 @@ async function update(id, item, collection) {
     return db.collection(collection).updateOne({ _id: new ObjectId(id) }, { $set: item });
 }
  
-module.exports = { findById, findUser, findAll, insert, update }
+module.exports = { findById, findUser, findAll, insert, update, findByCode }

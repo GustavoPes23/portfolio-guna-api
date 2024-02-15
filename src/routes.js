@@ -4,6 +4,7 @@ const uploadMiddleware = require("./config/upload");
 const { verifyToken } = require("./config/auth");
 
 const ItemService = require('./services/item');
+const TagService = require('./services/tag');
 const AuthService = require("./services/auth");
 
 routes.post('/item', verifyToken, uploadMiddleware, ItemService.doPost)
@@ -11,8 +12,9 @@ routes.post('/item', verifyToken, uploadMiddleware, ItemService.doPost)
     .get('/item', verifyToken, ItemService.doGetAll)
     .put('/item/:id',verifyToken, ItemService.doUpdate);
 
-// routes.post('/user/insert', AuthService.doPost)
-//     .post('/user/auth', AuthService.doPostAuth);
+routes.post('/tag', verifyToken, TagService.doPost)
+    .get('/tag/get-by-code/:code', verifyToken, TagService.doGetByCode)
+    .get('/tag', verifyToken, TagService.doGetAll);
 
 routes.post('/user/auth', AuthService.doPostAuth);
     
