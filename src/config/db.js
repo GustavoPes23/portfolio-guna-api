@@ -40,13 +40,16 @@ export async function findAll(collection, group = null) {
 
 function groupByTagCode(items) {
     const groupedItems = [];
+    const filteredItems = [];
+
     items.forEach(item => {
         const tagCode = item.tag.code;
-        if (!groupedItems[tagCode]) {
-            groupedItems[tagCode] = [];
+        if (!filteredItems.includes(tagCode)) {
+            filteredItems.push(tagCode);
+            groupedItems.push(items.filter((data) => data.tag.code == tagCode));
         }
-        groupedItems.push(item);
     });
+    
     return groupedItems;
 }
 
