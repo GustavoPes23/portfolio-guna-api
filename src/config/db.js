@@ -39,13 +39,13 @@ export async function findAll(collection, group = null) {
 }
 
 function groupByTagCode(items) {
-    const groupedItems = {};
+    const groupedItems = [];
     items.forEach(item => {
         const tagCode = item.tag.code;
         if (!groupedItems[tagCode]) {
             groupedItems[tagCode] = [];
         }
-        groupedItems[tagCode].push(item);
+        groupedItems.push(item);
     });
     return groupedItems;
 }
