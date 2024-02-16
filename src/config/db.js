@@ -46,7 +46,7 @@ function groupByTagCode(items) {
         const tagCode = item.tag.code;
         if (!filteredItems.includes(tagCode)) {
             filteredItems.push(tagCode);
-            groupedItems.push(items.filter((data) => data.tag.code == tagCode));
+            groupedItems.push(...items.filter((data) => data.tag.code == tagCode));
         }
     });
 
