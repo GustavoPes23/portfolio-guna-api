@@ -1,13 +1,15 @@
-require('dotenv').config({ path: '../../.env' });
+import dotenv from 'dotenv';
+import multer from 'multer';
+import { v2 as cloudinary } from 'cloudinary';
+import streamifier from 'streamifier';
 
-const multer = require("multer");
-const cloudinary = require('cloudinary').v2;
-const streamifier = require("streamifier");
+dotenv.config();
+process.setMaxListeners(15);
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
+
 const uploadMiddleware = upload.single("file");
-process.setMaxListeners(15);
 
 cloudinary.config({
     cloud_name: process.env.CLOUD_API_NAME,
@@ -15,7 +17,7 @@ cloudinary.config({
     api_secret: process.env.CLOUD_API_SECRET
 });
 
-function runMiddleware(req, res, fn) {
+async function runMiddleware(req, res, fn) {
     return new Promise((resolve, reject) => {
         fn(req, res, (result) => {
             if (result instanceof Error) {
@@ -29,26 +31,19 @@ function runMiddleware(req, res, fn) {
 async function handler(req, res, next) {
     await runMiddleware(req, res, uploadMiddleware);
     
-    const stream = await cloudinary.uploader.upload_stream(
-        {
-            folder: "demo",
-        },
-        (error, result) => {
-            if (error) {
-                return console.error(error);
-            }
-            
-            req.uploadedFile = result;
-            next();
+    const stream = cloudinary.uploader.upload_stream({ folder: "demo" }, (error, result) => {
+        if (error) {
+            return res.status(500).json({
+                success: false,
+                message: error.message
+            });
         }
-    );
+            
+        req.uploadedFile = result;
+        next();
+    });
+
     streamifier.createReadStream(req.file.buffer).pipe(stream);    
 }
 
-const config = {
-    api: {
-        bodyParser: false,
-    },
-};
-
-module.exports = handler;
+export default handler;

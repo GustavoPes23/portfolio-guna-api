@@ -1,8 +1,9 @@
-require('dotenv').config({ path: '../../.env' });
+import dotenv from 'dotenv';
+import jwt from 'jsonwebtoken';
 
-const jwt = require('jsonwebtoken');
+dotenv.config({ path: '../../.env' });
 
-function generateToken({ user, pass }, res) {
+export function generateToken({ user, pass }, res) {
     const payload = {
         role: "admin",
         user,
@@ -18,8 +19,8 @@ function generateToken({ user, pass }, res) {
     return jwt.sign(payload, secret, options);
 }
 
-function verifyToken(req, res, next) {
-    const auth = req.headers['authorization'].split(" ");
+export function verifyToken(req, res, next) {
+    const auth = req.headers['authorization']?.split(" ");
 
     if (!auth) {
         return res.status(403).json({ message: 'Token não fornecido.' });
@@ -38,5 +39,3 @@ function verifyToken(req, res, next) {
         next();
     });
 }
-
-module.exports = { generateToken, verifyToken };

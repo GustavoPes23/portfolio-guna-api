@@ -1,21 +1,23 @@
-const express = require('express');
-const routes = express.Router();
-const uploadMiddleware = require("./config/upload");
-const { verifyToken } = require("./config/auth");
+import express from 'express';
+import { Router } from 'express';
+import uploadMiddleware from "./config/upload.js";
+import { verifyToken } from "./config/auth.js";
 
-const ItemService = require('./services/item');
-const TagService = require('./services/tag');
-const AuthService = require("./services/auth");
+import { doPostItems, doGetByIdItems, doGetAllItems, doUpdateItems } from './services/item.js';
+import { doPostTag, doGetByCodeTag, doGetAllTag } from './services/tag.js';
+import { doPostAuth } from "./services/auth.js";
 
-routes.post('/item', verifyToken, uploadMiddleware, ItemService.doPost)
-    .get('/item/:id', verifyToken, ItemService.doGetById)
-    .get('/item', verifyToken, ItemService.doGetAll)
-    .put('/item/:id',verifyToken, ItemService.doUpdate);
+const routes = Router();
 
-routes.post('/tag', verifyToken, TagService.doPost)
-    .get('/tag/get-by-code/:code', verifyToken, TagService.doGetByCode)
-    .get('/tag', verifyToken, TagService.doGetAll);
+routes.post('/item', verifyToken, uploadMiddleware, doPostItems)
+    .get('/item/:id', verifyToken, doGetByIdItems)
+    .get('/item', verifyToken, doGetAllItems)
+    .put('/item/:id',verifyToken, doUpdateItems);
 
-routes.post('/user/auth', AuthService.doPostAuth);
+routes.post('/tag', verifyToken, doPostTag)
+    .get('/tag/get-by-code/:code', verifyToken, doGetByCodeTag)
+    .get('/tag', verifyToken, doGetAllTag);
+
+routes.post('/user/auth', doPostAuth);
     
-module.exports = routes;
+export default routes;

@@ -1,9 +1,3 @@
-const COLLECTION_ITEMS = "items";
-const COLLECTION_TAG = "tag";
-const COLLECTION_USERS = "users";
-
-module.exports = {
-    COLLECTION_ITEMS,
-    COLLECTION_TAG,
-    COLLECTION_USERS
-};
+export const COLLECTION_ITEMS = "items";
+export const COLLECTION_TAG = "tag";
+export const COLLECTION_USERS = "users";

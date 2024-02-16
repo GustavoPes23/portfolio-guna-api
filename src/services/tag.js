@@ -1,8 +1,7 @@
-const { findById, findAll, insert, findByCode } = require("../config/db");
+import { findByCode, insert, findAll } from "../config/db.js";
+import { COLLECTION_TAG } from "../config/collections.js";
 
-const { COLLECTION_TAG } = require("../config/collections");
-
-async function doGetByCode(req, res) {
+export async function doGetByCodeTag(req, res) {
     try {
         const tagCode = req.params.code;
         const tag = await findByCode(tagCode, COLLECTION_TAG);
@@ -27,7 +26,7 @@ async function doGetByCode(req, res) {
     }
 }
 
-async function doPost(req, res) {
+export async function doPostTag(req, res) {
     try {
         const { code, description } = req.body;
 
@@ -59,7 +58,7 @@ async function doPost(req, res) {
     }
 }
 
-async function doGetAll(_, res) {
+export async function doGetAllTag(_, res) {
     try {
         const result = await findAll(COLLECTION_TAG);
 
@@ -74,5 +73,3 @@ async function doGetAll(_, res) {
         });
     }
 }
-
-module.exports = { doGetByCode, doPost, doGetAll };

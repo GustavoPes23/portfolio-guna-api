@@ -1,8 +1,7 @@
-const { findById, findAll, insert, update, findByCode } = require("../config/db");
+import { findById, findAll, insert, update, findByCode } from "../config/db.js";
+import { COLLECTION_ITEMS, COLLECTION_TAG } from "../config/collections.js";
 
-const { COLLECTION_ITEMS, COLLECTION_TAG } = require("../config/collections");
-
-async function doGetById(req, res) {
+export async function doGetByIdItems(req, res) {
     const itemId = req.params.id;
 
     try {
@@ -28,7 +27,7 @@ async function doGetById(req, res) {
     }
 }
 
-async function doPost(req, res) {
+export async function doPostItems(req, res) {
     try {
         const { name, code_tag } = JSON.parse(req.body.formData);
         const { uploadedFile, file } = req;
@@ -63,7 +62,7 @@ async function doPost(req, res) {
     }
 }
 
-async function doGetAll(_, res) {
+export async function doGetAllItems(_, res) {
     try {
         const result = await findAll(COLLECTION_ITEMS);
 
@@ -79,7 +78,7 @@ async function doGetAll(_, res) {
     }
 }
 
-async function doUpdate(req, res) {
+export async function doUpdateItems(req, res) {
     const id = req.params.id;
     const { name, href, tag } = req.body;
 
@@ -103,5 +102,3 @@ async function doUpdate(req, res) {
         });
     }
 }
-
-module.exports = { doGetById, doPost, doGetAll, doUpdate };

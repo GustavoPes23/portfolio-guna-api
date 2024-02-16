@@ -1,9 +1,8 @@
-const { insert, findUser } = require("../config/db");
-const { generateToken } = require("../config/auth");
+import { insert, findUser } from "../config/db.js";
+import { generateToken } from "../config/auth.js";
+import { COLLECTION_USERS } from "../config/collections.js";
 
-const { COLLECTION_USERS } = require("../config/collections");
-
-async function doPost(req, res) {
+export async function doPost(req, res) {
     const { user, pass } = req.body;
 
     const token = generateToken({ user, pass }, res);
@@ -29,7 +28,7 @@ async function doPost(req, res) {
     }
 }
 
-async function doPostAuth(req, res) {
+export async function doPostAuth(req, res) {
     const { user, pass } = req.body;
 
     try {
@@ -60,5 +59,3 @@ async function doPostAuth(req, res) {
         });
     }
 }
-
-module.exports = { doPost, doPostAuth };
