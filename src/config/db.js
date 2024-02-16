@@ -27,9 +27,27 @@ export async function findUser(data, collection) {
     return db.collection(collection).findOne(data);
 }
 
-export async function findAll(collection) {
+export async function findAll(collection, group = null) {
     const db = await connect();
-    return db.collection(collection).find().toArray();
+    const result =  await db.collection(collection).find().toArray();
+
+    if (group === "tag_code") {
+        return groupByTagCode(result);
+    } 
+
+    return result;
+}
+
+function groupByTagCode(items) {
+    const groupedItems = {};
+    items.forEach(item => {
+        const tagCode = item.tag.code;
+        if (!groupedItems[tagCode]) {
+            groupedItems[tagCode] = [];
+        }
+        groupedItems[tagCode].push(item);
+    });
+    return groupedItems;
 }
 
 export async function insert(data, collection) {
@@ -41,3 +59,4 @@ export async function update(id, item, collection) {
     const db = await connect();
     return db.collection(collection).updateOne({ _id: new ObjectId(id) }, { $set: item });
 }
+

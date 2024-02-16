@@ -18,8 +18,7 @@ export async function doGetByIdItems(req, res) {
             success: false,
             message: 'Not found.'
         });
-    }
-    catch (err) {
+    } catch (err) {
         return res.status(400).json({
             success: false,
             message: err.message
@@ -53,8 +52,7 @@ export async function doPostItems(req, res) {
             success: true,
             result: item
         });
-    }
-    catch (err) {
+    } catch (err) {
         return res.status(500).json({
             success: false,
             message: err.message
@@ -62,9 +60,10 @@ export async function doPostItems(req, res) {
     }
 }
 
-export async function doGetAllItems(_, res) {
+export async function doGetAllItems(req, res) {
     try {
-        const result = await findAll(COLLECTION_ITEMS);
+        const { group } = req.query;
+        const result = await findAll(COLLECTION_ITEMS, group);
 
         return res.status(200).json({
             success: true,
