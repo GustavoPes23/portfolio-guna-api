@@ -27,11 +27,11 @@ export async function findUser(data, collection) {
     return db.collection(collection).findOne(data);
 }
 
-export async function findAll(collection, group = null) {
+export async function findAll(collection, groupby = null) {
     const db = await connect();
     const result =  await db.collection(collection).find().toArray();
 
-    if (group === "tag_code") {
+    if (groupby === "tag_code") {
         return groupByTagCode(result);
     } 
 
@@ -49,7 +49,7 @@ function groupByTagCode(items) {
             groupedItems.push(items.filter((data) => data.tag.code == tagCode));
         }
     });
-    
+
     return groupedItems;
 }
 

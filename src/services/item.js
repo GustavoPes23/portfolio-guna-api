@@ -62,8 +62,8 @@ export async function doPostItems(req, res) {
 
 export async function doGetAllItems(req, res) {
     try {
-        const { group } = req.query;
-        const result = await findAll(COLLECTION_ITEMS, group);
+        const { groupby } = req.query;
+        const result = await findAll(COLLECTION_ITEMS, groupby);
 
         return res.status(200).json({
             success: true,
