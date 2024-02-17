@@ -1,5 +1,4 @@
 import { MongoClient } from "mongodb";
-import { ObjectId } from "mongodb";
 import dotenv from 'dotenv';
 
 dotenv.config({ path: '../../.env' });
@@ -14,7 +13,7 @@ async function connect() {
 
 export async function findById(id, collection) {
     const db = await connect();
-    return db.collection(collection).findOne({ _id: new ObjectId(id) });
+    return db.collection(collection).findOne({ _id: new id });
 }
 
 export async function findByCode(code, collection) {
@@ -46,7 +45,7 @@ function groupByTagCode(items) {
         const tagCode = item.tag.code;
         if (!filteredItems.includes(tagCode)) {
             filteredItems.push(tagCode);
-            groupedItems.push(...items.filter((data) => data.tag.code == tagCode));
+            groupedItems.push(...items.filter((data) => data.tag.code === tagCode));
         }
     });
 
@@ -60,6 +59,6 @@ export async function insert(data, collection) {
 
 export async function update(id, item, collection) {
     const db = await connect();
-    return db.collection(collection).updateOne({ _id: new ObjectId(id) }, { $set: item });
+    return db.collection(collection).updateOne({ _id: id }, { $set: item });
 }
 

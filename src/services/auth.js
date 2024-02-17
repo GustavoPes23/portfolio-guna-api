@@ -3,11 +3,9 @@ import { generateToken } from "../config/auth.js";
 import { COLLECTION_USERS } from "../config/collections.js";
 
 export async function doPost(req, res) {
-    const { user, pass } = req.body;
-
-    const token = generateToken({ user, pass }, res);
-
     try {
+        const { user, pass } = req.body;
+        const token = generateToken({ user, pass }, res);
         const User = {
             user,
             pass,
@@ -28,13 +26,24 @@ export async function doPost(req, res) {
     }
 }
 
-export async function doPostAuth(req, res) {
-    const { user, pass } = req.body;
+function validUser(user) {
+    if (!user) {
+        throw new Error("Missing user.");
+    }
+}
 
+function validPassword(pass) {
+    if (!pass) {
+        throw new Error("Missing password.");
+    }
+}
+
+export async function doPostAuth(req, res) {
     try {
-        if (!user || !pass) {
-            throw new Error("Missing data.");
-        }
+        const { user, pass } = req.body;
+
+        validUser(user);
+        validPassword(pass);
 
         const User = await findUser({ user, pass }, COLLECTION_USERS);
 

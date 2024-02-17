@@ -2,9 +2,8 @@ import { findById, findAll, insert, update, findByCode } from "../config/db.js";
 import { COLLECTION_ITEMS, COLLECTION_TAG } from "../config/collections.js";
 
 export async function doGetByIdItems(req, res) {
-    const itemId = req.params.id;
-
     try {
+        const itemId = req.params.id;
         const item = await findById(itemId, COLLECTION_ITEMS);
 
         if (item) {
@@ -26,6 +25,12 @@ export async function doGetByIdItems(req, res) {
     }
 }
 
+function validTag(tag) {
+    if (!tag) {
+        throw new Error("Tag is required");
+    }
+}
+
 export async function doPostItems(req, res) {
     try {
         const { name, code_tag, sub_items } = JSON.parse(req.body.formData);
@@ -33,9 +38,7 @@ export async function doPostItems(req, res) {
 
         const tag = await findByCode(code_tag, COLLECTION_TAG);
 
-        if (!tag) {
-            throw new Error("Tag not found");
-        }
+        validTag(tag);
 
         const item = {
             name,
@@ -79,10 +82,9 @@ export async function doGetAllItems(req, res) {
 }
 
 export async function doUpdateItems(req, res) {
-    const id = req.params.id;
-    const { name, href, tag } = req.body;
-
     try {
+        const id = req.params.id;
+        const { name, href, tag } = req.body;
         const item = {};
 
         name && (item.name = name);

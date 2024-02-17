@@ -10,8 +10,8 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.get("/", (req, res) => {
-  res.send("Express on Vercel");
+app.get("/", (_, res) => {
+  res.send("API Rest Guna Studio");s
 });
 
 app.use('/api', routes);

@@ -26,17 +26,24 @@ export async function doGetByCodeTag(req, res) {
     }
 }
 
+function validCode(code) {
+    if (!code) {
+        throw new Error("Missing code.");
+    }
+}
+
+function validDescription(description) {
+    if (!description) {
+        throw new Error("Missing description.");
+    }
+}
+
 export async function doPostTag(req, res) {
     try {
         const { code, description } = req.body;
 
-        if (!code) {
-            throw new Error("Missing code.");
-        }
-
-        if (!description) {
-            throw new Error("Missing description.");
-        }
+        validCode(code);
+        validDescription(description);
 
         const tag = {
             code,

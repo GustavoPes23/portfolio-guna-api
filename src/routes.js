@@ -1,4 +1,3 @@
-import express from 'express';
 import { Router } from 'express';
 import uploadMiddleware from "./config/upload.js";
 import { verifyToken } from "./config/auth.js";

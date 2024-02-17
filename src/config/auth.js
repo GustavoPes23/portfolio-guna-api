@@ -3,39 +3,75 @@ import jwt from 'jsonwebtoken';
 
 dotenv.config({ path: '../../.env' });
 
-export function generateToken({ user, pass }, res) {
-    const payload = {
+function getPayload({ user, pass }) {
+    return {
         role: "admin",
         user,
         pass
     };
+}
 
-    const secret = process.env.AUTH_JWT;
-
-    const options = {
+function getOptionsJWT() {
+    return {
         expiresIn: '24h'
     };
-
-    return jwt.sign(payload, secret, options);
 }
 
-export function verifyToken(req, res, next) {
-    const auth = req.headers['authorization']?.split(" ");
-
-    if (!auth) {
-        return res.status(403).json({ message: 'Token não fornecido.' });
-    }
-
-    const token = auth[1] || auth[0];
-
-    if (!token) {
-        return res.status(403).json({ message: 'Token não fornecido.' });
-    }
-
-    jwt.verify(token, process.env.AUTH_JWT, (err) => {
-        if (err) {
-            return res.status(401).json({ message: 'Token inválido.' });
-        }
-        next();
-    });
+function getSecretJWT() {
+    return process.env.AUTH_JWT;
 }
+
+function validateSecretJWT(secret) {
+    if (!secret) {
+        throw new Error('JWT Secret não informado');
+    }
+}
+
+function generateToken(req) {
+    try {
+        const payload = getPayload(req);
+        const secret = getSecretJWT();
+
+        validateSecretJWT(secret);
+
+        const options = getOptionsJWT();
+
+        return jwt.sign(payload, secret, options);
+    } catch (error) {
+        throw new Error(error?.message);
+    }
+}
+
+function getAuthTokenHeaders(req) {
+    return req.headers['authorization'];
+}
+
+function validateAuthToken(authToken) {
+    if (!authToken) {
+        throw new Error('Token não fornecido.');
+    }
+}
+
+function validateTokenVerify(err) {
+    if (err) {
+        throw new Error('Token inválido.');
+    }
+}
+
+function verifyToken(req, res, next) {
+    try {
+        const authToken = getAuthTokenHeaders(req);
+        const secret = getSecretJWT();
+
+        validateAuthToken(authToken);
+
+        jwt.verify(authToken, secret, (err) => {
+            validateTokenVerify(err);
+            next();
+        });
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+}
+
+export { generateToken, verifyToken }
