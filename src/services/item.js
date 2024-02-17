@@ -28,7 +28,7 @@ export async function doGetByIdItems(req, res) {
 
 export async function doPostItems(req, res) {
     try {
-        const { name, code_tag } = JSON.parse(req.body.formData);
+        const { name, code_tag, sub_items } = JSON.parse(req.body.formData);
         const { uploadedFile, file } = req;
 
         const tag = await findByCode(code_tag, COLLECTION_TAG);
@@ -43,6 +43,7 @@ export async function doPostItems(req, res) {
                 src: uploadedFile.secure_url,
                 alt: file.originalname,
             },
+            subItems: sub_items,
             tag
         };
 
