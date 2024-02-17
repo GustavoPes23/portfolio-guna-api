@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(cors());
 
 app.get("/", (_, res) => {
-  res.send("API Rest Guna Studio");s
+  res.send("API Rest Guna Studio");
 });
 
 app.use('/api', routes);

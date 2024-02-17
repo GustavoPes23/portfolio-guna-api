@@ -26,9 +26,10 @@ export async function findUser(data, collection) {
     return db.collection(collection).findOne(data);
 }
 
-export async function findAll(collection, groupby = null) {
+export async function findAll(collection, groupby = null, page = 1, pageSize = 10) {
+    const skip = Number((Number(page) - 1) * Number(pageSize));
     const db = await connect();
-    const result =  await db.collection(collection).find().toArray();
+    const result =  await db.collection(collection).find().skip(skip).limit(Number(pageSize)).toArray();
 
     if (groupby === "tag_code") {
         return groupByTagCode(result);
