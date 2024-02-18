@@ -13,7 +13,7 @@ function getPayload({ user, pass }) {
 
 function getOptionsJWT() {
     return {
-        expiresIn: '24h'
+        expiresIn: '1h'
     };
 }
 
